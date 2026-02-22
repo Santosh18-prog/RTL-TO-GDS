@@ -1,10 +1,10 @@
 # 🚀 RTL to GDSII Implementation using OpenLANE  
-### Week-1 Phases and Exact Sections to Complete
+
 
 ---
 
 <details>
-<summary><b>Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)</b></summary>
+<summary>Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)</summary>
 
 ---
 
