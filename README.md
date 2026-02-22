@@ -204,6 +204,8 @@ All results are stored inside:
 ![path](phase1/3_path.png)
 In simple words, run_synthesis converts RTL code into real standard cell logic and checks whether the design meets timing requirements.
 
+### Synthesis Result
+
 ![run_synth](phase1/5-1_stat.png)
 ![run_synth](phase1/5-2_stat.png)
 ![run_synth](phase1/5-3_stat.png)
