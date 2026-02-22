@@ -182,7 +182,7 @@ This step must be executed before running synthesis or any physical design stage
 
 In simple words, `prep -design` prepares the environment for the ASIC design flow.
 
-![prep_design](/images/1_prep_design.png)
+![prep_design](/phase1/1_prep_design.png)
 
 3. Run Synthesis
    When we run:
@@ -201,12 +201,12 @@ All results are stored inside:
 
     designs/picorv32a/runs/RUN_2026.02.22_09.53.55
 
-![path](/images/3_path.png)
+![path](/phase1/3_path.png)
 In simple words, run_synthesis converts RTL code into real standard cell logic and checks whether the design meets timing requirements.
 
-![run_synth](/images/2-1_stat.png)
-![run_synth](/images/2-2_stat.png)
-![run_synth](/images/2-3_stat.png)
+![run_synth](/phase1/5-1_stat.png)
+![run_synth](/phase1/5-2_stat.png)
+![run_synth](/phase1/5-3_stat.png)
 
 The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/15762) = 0.102334 = 10.2334%
   
