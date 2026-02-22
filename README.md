@@ -26,7 +26,7 @@ Goal:
 ## 🏗️ Complete RTL to GDSII Flow
 
 
-![flow](phase1/flow.png)
+![flow](phase1/flow.jpeg)
 
 ---
 
