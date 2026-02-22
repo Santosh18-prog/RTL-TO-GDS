@@ -1,5 +1,7 @@
 # 🚀 RTL to GDSII Implementation using OpenLANE  
-### VSD Squadron – RTL to GDS Flow
+### Week-1 Phases and Exact Sections to Complete
+## Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)
+
 
 ---
 
