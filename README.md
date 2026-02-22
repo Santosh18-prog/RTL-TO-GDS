@@ -30,7 +30,7 @@ Goal:
 
 ---
 
-## RTL Synthesis
+## 1) RTL Synthesis
 
 ### Description
 - Converts RTL (Verilog) into a gate-level netlist  
@@ -47,7 +47,7 @@ Goal:
 
 ---
 
-🔹 2️⃣ Floorplanning
+## 2) Floorplanning
 
 ### Description
 - Defines die & core area  
@@ -64,7 +64,7 @@ Goal:
 
 ---
 
-🔹 3️⃣ Placement
+## 3) Placement
 
 ### Steps
 - Global Placement  
@@ -78,7 +78,7 @@ Goal:
 
 ---
 
-🔹 4️⃣ Clock Tree Synthesis (CTS)
+## 4) Clock Tree Synthesis (CTS)
 
 ### Description
 - Builds clock distribution network  
@@ -91,7 +91,7 @@ Stable clock delivery to all sequential elements.
 
 ---
 
-🔹 5️⃣ Routing
+## 5) Routing
 
 ### Steps
 - Global Routing  
@@ -105,7 +105,7 @@ Stable clock delivery to all sequential elements.
 ---
 
 
-🔹 6️⃣ Signoff Verification
+## 6) Signoff Verification
 
 ### Physical Verification
 - DRC – Magic  
@@ -120,7 +120,7 @@ Stable clock delivery to all sequential elements.
 
 
 ---
-🔹  Antenna Rule Handling</b></summary>
+##  Antenna Rule Handling
 
 ### Problem
 Metal wires may accumulate charge and damage transistor gates.
@@ -134,7 +134,7 @@ Metal wires may accumulate charge and damage transistor gates.
 ---
 
 
-🔹  Logic Equivalence Check (LEC)
+##  Logic Equivalence Check (LEC)
 
 Ensures functionality remains same after:
 
