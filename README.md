@@ -28,8 +28,7 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 
 ---
 
-<details>
-<summary><b>🔹 1️⃣ RTL Synthesis</b></summary>
+🔹 1️⃣ RTL Synthesis
 
 ### Description
 - Converts RTL (Verilog) into a gate-level netlist  
@@ -42,7 +41,7 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 ### Output
 - Gate-level netlist
 
-</details>
+
 
 ---
 
