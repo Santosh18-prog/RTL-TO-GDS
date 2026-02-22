@@ -30,7 +30,7 @@ Goal:
 
 ---
 
-🔹 1️⃣ RTL Synthesis
+## RTL Synthesis
 
 ### Description
 - Converts RTL (Verilog) into a gate-level netlist  
