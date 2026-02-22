@@ -7,6 +7,8 @@
 <summary>Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)</summary>
 
 ---
+<details>
+  <summary>Theory</summary>
 
 ## 📌 Project Overview
 
@@ -45,8 +47,7 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 
 ---
 
-<details>
-<summary><b>🔹 2️⃣ Floorplanning</b></summary>
+🔹 2️⃣ Floorplanning
 
 ### Description
 - Defines die & core area  
@@ -59,12 +60,11 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 - Proper power distribution  
 - Low congestion  
 
-</details>
+
 
 ---
 
-<details>
-<summary><b>🔹 3️⃣ Placement</b></summary>
+🔹 3️⃣ Placement
 
 ### Steps
 - Global Placement  
@@ -76,12 +76,9 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 - Improve timing slack  
 - Reduce congestion  
 
-</details>
-
 ---
 
-<details>
-<summary><b>🔹 4️⃣ Clock Tree Synthesis (CTS)</b></summary>
+🔹 4️⃣ Clock Tree Synthesis (CTS)
 
 ### Description
 - Builds clock distribution network  
@@ -91,12 +88,10 @@ RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signof
 ### Objective
 Stable clock delivery to all sequential elements.
 
-</details>
 
 ---
 
-<details>
-<summary><b>🔹 5️⃣ Routing</b></summary>
+🔹 5️⃣ Routing
 
 ### Steps
 - Global Routing  
@@ -107,27 +102,10 @@ Stable clock delivery to all sequential elements.
 - Antenna violations  
 - Wire optimization  
 
-</details>
-
 ---
 
-<details>
-<summary><b>🔹 6️⃣ Antenna Rule Handling</b></summary>
 
-### Problem
-Metal wires may accumulate charge and damage transistor gates.
-
-### Solutions
-- Antenna diode insertion  
-- Layer hopping (bridging)  
-- Magic antenna checks  
-
-</details>
-
----
-
-<details>
-<summary><b>🔹 7️⃣ Signoff Verification</b></summary>
+🔹 6️⃣ Signoff Verification
 
 ### Physical Verification
 - DRC – Magic  
@@ -139,12 +117,24 @@ Metal wires may accumulate charge and damage transistor gates.
 ### Parasitic Extraction
 - RC Extraction – Magic  
 
-</details>
+
+
+---
+🔹  Antenna Rule Handling</b></summary>
+
+### Problem
+Metal wires may accumulate charge and damage transistor gates.
+
+### Solutions
+- Antenna diode insertion  
+- Layer hopping (bridging)  
+- Magic antenna checks  
+
 
 ---
 
-<details>
-<summary><b>🔹 8️⃣ Logic Equivalence Check (LEC)</b></summary>
+
+🔹  Logic Equivalence Check (LEC)
 
 Ensures functionality remains same after:
 
@@ -152,9 +142,12 @@ Ensures functionality remains same after:
 - Optimization  
 - Routing modifications  
 
-</details>
+
 
 ---
+</details>
+
+--- 
 
 </details>
 
@@ -195,9 +188,3 @@ Ensures functionality remains same after:
 - Antenna rule fixing techniques  
 
 ---
-
-## 👨‍💻 Author
-
-**Sandy**  
-ECE Undergraduate  
-Aspiring VLSI / ASIC Physical Design Engineer  
