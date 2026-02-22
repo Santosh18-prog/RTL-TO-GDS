@@ -148,7 +148,67 @@ Ensures functionality remains same after:
 </details>
 
 --- 
+<details> 
+<summary>LAB</summary>
+  ### Determine Flip-flop Ratio
 
+The task is to find the flip-flop ratio ratio for the design picorv32a. This is the ratio of the number of flip flops to the total number of cells.
+
+1. Run OpenLANE:
+   $ make mount  -  Opens the Docker container for the OpenLane environment
+
+   % ./flow.tcl -interactive  -  Starts the OpenLane flow in interactive mode to execute the RTL to GDSII flow step-by-step
+
+   % package require openlane 0.9  -  Loads the OpenLane v0.9 package and its required dependencies
+
+2. prep -design picorv32a
+
+The command:
+
+    prep -design picorv32a
+
+is used to initialize the OpenLane flow for the `picorv32a` design.
+
+It performs the following tasks:
+- Loads the RTL (Verilog) files
+- Reads the `config.tcl` file
+- Links the Sky130 standard cell library
+- Applies clock and design constraints
+- Creates a new `runs/` directory to store logs, reports, and results
+
+This step must be executed before running synthesis or any physical design stage.
+
+In simple words, `prep -design` prepares the environment for the ASIC design flow.
+
+![prep_design](/images/1_prep_design.png)
+
+3. Run Synthesis
+   When we run:
+
+    run_synthesis
+
+in the VSD Cloud OpenLane environment:
+
+- The RTL (Verilog) code is converted into a gate-level netlist
+- The design is mapped to Sky130 standard cells
+- Logic optimization is performed to reduce area and improve timing
+- Static Timing Analysis (STA) is executed
+- Reports for cell count, area, and timing are generated
+
+All results are stored inside:
+
+    designs/picorv32a/runs/RUN_2026.02.22_09.53.55
+
+![path](/images/3_path.png)
+In simple words, run_synthesis converts RTL code into real standard cell logic and checks whether the design meets timing requirements.
+
+![run_synth](/images/2-1_stat.png)
+![run_synth](/images/2-2_stat.png)
+![run_synth](/images/2-3_stat.png)
+
+The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/15762) = 0.102334 = 10.2334%
+  
+</details>
 </details>
 
 ---
