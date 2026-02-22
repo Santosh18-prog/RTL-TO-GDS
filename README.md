@@ -5,7 +5,7 @@
 
 <details>
 <summary><strong>Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)</strong></summary>
----
+
 <details>
   <summary>Theory</summary>
 
