@@ -1,7 +1,6 @@
 # 🚀 RTL to GDSII Implementation using OpenLANE  
-### Week-1 Phases and Exact Sections to Complete
+## Week-1 Phases and Exact Sections to Complete
 ## Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)
-
 
 ---
 
@@ -14,6 +13,11 @@ Goal:
 - ✅ Zero DRC
 - ✅ Zero LVS mismatch
 - ✅ Timing Clean Design
+
+---
+
+<details>
+<summary><b>🔎 Click to Expand Phase-1 Complete Theory (RTL → GDS Flow)</b></summary>
 
 ---
 
@@ -149,6 +153,10 @@ Ensures functionality remains same after:
 - CTS  
 - Optimization  
 - Routing modifications  
+
+</details>
+
+---
 
 </details>
 
