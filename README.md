@@ -25,9 +25,8 @@ Goal:
 
 ## 🏗️ Complete RTL to GDSII Flow
 
-```
-RTL → Synthesis → Floorplanning → Placement → CTS → Routing → Signoff → GDSII
-```
+
+![flow](phase1/flow.png)
 
 ---
 
@@ -237,7 +236,6 @@ The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/1
 
 ```
 .
-├── design/
 ├── images/
 └── README.md
 ```
