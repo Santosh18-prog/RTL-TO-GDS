@@ -150,7 +150,8 @@ Ensures functionality remains same after:
 --- 
 <details> 
 <summary>LAB</summary>
-  ### Determine Flip-flop Ratio
+  
+### Determine Flip-flop Ratio
 
 The task is to find the flip-flop ratio ratio for the design picorv32a. This is the ratio of the number of flip flops to the total number of cells.
 
