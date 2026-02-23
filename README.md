@@ -11,13 +11,13 @@
 <details>
   <summary>Theory</summary>
 
-# SoC Design Using OpenLane
+## SoC Design Using OpenLane
 
 This repository documents my hands-on implementation of the complete **RTL to GDSII ASIC design flow** using OpenLANE.
 
 ---
 
-# 1. Digital ASIC Design
+## 1. Digital ASIC Design
 
 Digital ASIC design is the process of converting a hardware description (RTL) into a fabricated silicon chip (ASIC).
 
@@ -31,7 +31,7 @@ These together enable the transformation of RTL → ASIC.
 
 ---
 
-# 2. Open-Source Digital ASIC Design
+## 2. Open-Source Digital ASIC Design
 
 In open-source ASIC design:
 
@@ -52,7 +52,7 @@ RTL → GDSII (layout ready for fabrication)
 
 ---
 
-# 3. What is a PDK?
+## 3. What is a PDK?
 
 PDK = Process Design Kit
 
@@ -62,7 +62,7 @@ It allows designers to create layouts that match actual manufacturing rules.
 
 ---
 
-## Contents of a PDK
+### Contents of a PDK
 
 A PDK typically contains:
 
@@ -77,7 +77,7 @@ These ensure that the design matches the real manufacturing process.
 
 ---
 
-# 4. Evolution of IC Design and PDK Usage
+## 4. Evolution of IC Design and PDK Usage
 
 In earlier days:
 
@@ -107,7 +107,7 @@ Design team ↔ Manufacturing process
 
 ---
 
-# 5. Open PDK
+## 5. Open PDK
 
 Open PDK used:
 
@@ -121,7 +121,7 @@ github.com/google/skywater-pdk
 
 ---
 
-## Is 130nm Fast?
+### Is 130nm Fast?
 
 Yes.
 
@@ -148,7 +148,7 @@ Goal:
 
 ---
 
-# 1. RTL Synthesis
+## 1. RTL Synthesis
 
 ### Description
 - Converts RTL (Verilog) into a gate-level netlist  
@@ -182,7 +182,7 @@ Goal:
 
 ---
 
-# 3. Placement
+## 3. Placement
 
 ### Steps
 - Global Placement  
@@ -196,7 +196,7 @@ Goal:
 
 ---
 
-# 4. Clock Tree Synthesis (CTS)
+## 4. Clock Tree Synthesis (CTS)
 
 ### Description
 - Builds clock distribution network  
@@ -209,7 +209,7 @@ Stable clock delivery to all sequential elements.
 
 ---
 
-# 5. Routing
+## 5. Routing
 
 ### Steps
 - Global Routing  
@@ -223,7 +223,7 @@ Stable clock delivery to all sequential elements.
 ---
 
 
-# 6. Signoff Verification
+## 6. Signoff Verification
 
 ### Physical Verification
 - DRC – Magic  
@@ -238,7 +238,7 @@ Stable clock delivery to all sequential elements.
 
 
 ---
-#  OpenLane Regression Testing
+###  OpenLane Regression Testing
 
 The design exploration utility is used for regression testing.
 
@@ -252,7 +252,7 @@ This ensures flow stability.
 
 ---
 
-#  Design For Test (DFT)
+###  Design For Test (DFT)
 
 DFT techniques improve testability of a chip.
 
@@ -268,7 +268,7 @@ These techniques ensure high manufacturing test quality.
 
 ---
 
-#  Physical Implementation (Automated Place & Route)
+###  Physical Implementation (Automated Place & Route)
 
 Also called:
 
@@ -287,7 +287,7 @@ This converts logical netlist into physical layout.
 
 ---
 
-#  Logic Equivalence Check (LEC)
+###  Logic Equivalence Check (LEC)
 
 Every time the netlist is modified, verification must be performed.
 
@@ -309,7 +309,7 @@ Original RTL ≡ Final netlist
 
 ---
 
-#  Dealing with Antenna Rule Violations
+###  Dealing with Antenna Rule Violations
 
 When a metal wire segment is fabricated, it can act as an antenna.
 
@@ -323,7 +323,7 @@ This is called an **Antenna Effect**.
 
 ---
 
-## Two Solutions for Antenna Violations
+### Two Solutions for Antenna Violations
 
 1) Bridge the wire to a higher metal layer (by adding jump/bridge)
 
@@ -336,7 +336,7 @@ This is called an **Antenna Effect**.
 
 ---
 
-#  Preventive Antenna Approach
+###  Preventive Antenna Approach
 
 Preventive method:
 
@@ -349,7 +349,7 @@ This ensures safe fabrication.
 
 ---
 
-#  Static Timing Analysis (STA)
+###  Static Timing Analysis (STA)
 
 After routing:
 
@@ -365,7 +365,7 @@ This ensures setup and hold timing constraints are satisfied.
 
 ---
 
-# 13. Physical Verification (DRC & LVS)
+###  Physical Verification (DRC & LVS)
 
 Physical verification ensures manufacturability.
 
@@ -413,7 +413,7 @@ In simple words, `prep -design` prepares the environment for the ASIC design flo
 
 ![prep_design](phase1/1_prep_design.png)
 
-3. Run Synthesis
+### 3. Run Synthesis
    When we run:
 
     run_synthesis
@@ -448,8 +448,9 @@ The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/1
 ---
 
 <details>
-<summary><strong>Phase 1 — Floorplan Fundamentals</strong></summary>
+<summary><strong>Phase 2 — Floorplan Fundamentals</strong></summary>
 
+---
 
 <details>
   <summary>Theory</summary>
@@ -458,9 +459,9 @@ The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/1
 
 ---
 
-#  Chip Floor Planning Considerations
+##  Chip Floor Planning Considerations
 
-# 1. Define Width and Height of Core & Die
+### 1. Define Width and Height of Core & Die
 
 In Physical Design (PD) flow, the first step is to determine:
 
@@ -471,7 +472,7 @@ The chip dimensions depend on the total area of logic gates inside the netlist.
 
 ---
 
-## Example Netlist
+### Example Netlist
 
 Consider a simple netlist containing:
 
@@ -485,7 +486,7 @@ The chip area depends on the number and dimensions of these logic gates.
 
 ---
 
-## Assume Standard Cell Dimensions
+### Assume Standard Cell Dimensions
 
 Let:
 
@@ -499,7 +500,7 @@ Possible layout → 2 units × 2 units core
 
 ---
 
-## What is Core & Die?
+### What is Core & Die?
 
 - Core: Area where logic blocks are placed  
 - Die: Entire silicon area including core and IO region  
@@ -508,7 +509,7 @@ A chip contains multiple dies on a silicon wafer.
 
 ---
 
-## 1.1 Utilization Factor
+### 1.1 Utilization Factor
 
 Even if core area is 2 × 2 = 4 units,
 
@@ -538,7 +539,7 @@ Because routing and power network also require space.
 
 ---
 
-# 1.2 Aspect Ratio
+### 1.2 Aspect Ratio
 
 ### Definition:
 
@@ -548,6 +549,8 @@ Aspect Ratio = Height / Width
 Core = 2 units × 2 units
 
 Aspect Ratio = 2 / 2 = 1
+
+![utilization_factor](phase2/utilization_factor.png)
 
 ### Example 2:
 Core Area = 8 units  
@@ -563,11 +566,11 @@ Aspect Ratio = 2 / 4 = 0.5
 
 ---
 
-# 2. Define Locations of Pre-Placed Cells
+## 2. Define Locations of Pre-Placed Cells
 
 ---
 
-## 2.1 What Are Pre-Placed Cells?
+### 2.1 What Are Pre-Placed Cells?
 
 Pre-placed cells are:
 
@@ -578,7 +581,7 @@ Pre-placed cells are:
 
 ---
 
-## Examples of Pre-Placed Cells (IPs)
+### Examples of Pre-Placed Cells (IPs)
 
 - Memory
 - Clock Gating Cells
@@ -594,13 +597,15 @@ These IPs:
 
 ---
 
-## 2.2 Black Boxing
+### 2.2 Black Boxing
 
 When logic blocks are not expanded internally:
 
 - Internal logic is hidden
 - Treated as a single module
 - Called black boxing
+
+![Black_box](phase2/blk_box.png)
 
 Purpose:
 
@@ -616,7 +621,7 @@ This simplifies:
 
 ---
 
-## 2.3 Floor Planning
+### 2.3 Floor Planning
 
 Floorplanning involves:
 
@@ -631,9 +636,9 @@ Automated placement & routing tools:
 
 ---
 
-# 3. Surrounding Pre-Placed Cells with Decoupling Capacitors
+## 3. Surrounding Pre-Placed Cells with Decoupling Capacitors
 
-## Pre-Placed Cells
+### Pre-Placed Cells
 
 Pre-placed cells (IP blocks/macros) are:
 
@@ -642,6 +647,8 @@ Pre-placed cells (IP blocks/macros) are:
 - Fixed in location.
 - Not moved during placement and routing.
 - Treated as black boxes.
+
+  ![pre_placed](phase2/pre_placed.png)
 
 These blocks:
 
@@ -652,7 +659,9 @@ These blocks:
 ---
 
 
-## IR Drop and Noise Margin Impact
+### IR Drop and Noise Margin Impact
+
+![circuit](phase2/ckt.png)
 
 Example:
 
@@ -667,7 +676,9 @@ This may:
 
 ---
 
-## Noise Margin and Undefined Region (Unsafe Zone)
+![noise_margin](phase2/noise_margin.png)
+
+### Noise Margin and Undefined Region (Unsafe Zone)
 
 For digital circuits, valid voltage levels are defined as:
 
@@ -707,6 +718,8 @@ This unsafe voltage zone must always be avoided in reliable chip design.
 
 ## Solution: Decoupling Capacitors (DECAP)
 
+![Decoupling_capacitor](phase2/decoupling_cap.png)
+
 To solve supply instability:
 
 We place decoupling capacitors near macros.
@@ -724,15 +737,7 @@ We place decoupling capacitors near macros.
 
 Decoupling capacitors are placed around large IP blocks:
 
-Conceptual structure:
-
-DECAP  
-Block A  
-DECAP  
-Block B  
-DECAP  
-Block C  
-DECAP  
+![Decoupling_capacitor_pre_placed](phase2/decoupling_cap_ip.png)
 
 These DECAP cells are inserted:
 
@@ -760,9 +765,11 @@ Decoupling capacitors:
 - Keep signals away from the undefined (unsafe) region.
 
 ---
-# 4. Power Planning (Advanced Concept)
+## 4. Power Planning 
 
-## Scenario:
+![power_supply](phase2/power_supply.png)
+
+### Scenario:
 
 If a macro is repeated many times:
 
@@ -773,7 +780,7 @@ If a macro is repeated many times:
 
 ---
 
-## Two Major Issues:
+### Two Major Issues:
 
 ### 1) When Logic switches 1 → 0
 
@@ -781,15 +788,19 @@ If a macro is repeated many times:
 - Sudden current to ground
 - Causes ground bounce
 
+![ground_bounce](phase2/ground_bounce.png)
+
 ### 2) When Logic switches 0 → 1
 
 - All capacitors charge
 - Heavy current from VDD
 - Causes voltage drop at VDD
 
+ ![Voltage_drop](phase2/voltage_drop.png)
+
 ---
 
-# Solution: Multiple Power Tap Points
+### Solution: Multiple Power Tap Points
 
 Instead of:
 
@@ -801,6 +812,10 @@ We provide:
 - Multiple VSS rails
 - Power grid network
 
+![power_planning](phase2/power_planning.png)
+
+![power_planning](phase2/power_plan.png)
+
 This ensures:
 
 - Current distributed evenly
@@ -811,32 +826,14 @@ This ensures:
 
 ---
 
-# Pin Placement
 
-Let us take the below design for example that needs to be implemented.
+## 5) Pin Placement
 
-The design consists of:
-
-- FF1 and FF2
-- Block A
-- Block B
-- Block C
-- Inputs: DIN1, DIN2, DIN3, DIN4
-- Outputs: DOUT1, DOUT2, DOUT3, DOUT4
-- Clocks: CLK1, CLK2
-
-Each flip-flop receives input data, passes through logic blocks, and produces outputs.
-
----
-
-# Complete Design
+### Complete Design
 
 The complete design connects:
 
-- DIN1 → FF1 → Logic → FF2 → DOUT1
-- DIN2 → FF1 → Logic (via Block A & Block B) → FF2 → DOUT2
-- DIN3 → FF1 → Logic (via Block C) → FF2 → DOUT3
-- DIN4 → FF1 → Logic → FF2 → DOUT4
+![complete_design](phase2/complete_design.png)
 
 The connectivity information (how gates are connected) is coded using a hardware description language.
 
@@ -844,8 +841,6 @@ This connectivity description is written using **VHDL language**
 and is called the **Netlist**.
 
 ---
-
-# 5) Pin Placement
 
 After floorplanning, pins are placed on the boundary of the die.
 
@@ -859,9 +854,9 @@ Pin placement is done carefully to:
 - Reduce wirelength
 - Improve timing
 
----
+![pin_placement](phase2/pin_placement.png)
 
-# Important Note on Clock Pins
+### Important Note on Clock Pins
 
 As observed in the pin placement:
 
@@ -889,7 +884,7 @@ This improves clock distribution and reduces delay/skew.
 
 ---
 
-# Placement Tool Behavior
+### Placement Tool Behavior
 
 Now once size and pin placement are defined,
 
@@ -901,11 +896,13 @@ Certain regions must not have standard cells placed.
 
 ---
 
-# Logical Cell Placement Blockage
+## Logical Cell Placement Blockage
 
 To prevent tools from placing cells in restricted areas,
 
 We create a **Logical Cell Placement Blockage**.
+
+![cell_placement_blockage](phase2/cell_placement_blockage.png)
 
 Blockage means:
 
@@ -921,31 +918,6 @@ This blockage ensures:
 - Congestion is reduced
 
 The placement and routing tool will not place any cell inside the blockage area.
-
----
-
-# Summary
-
-1. Design connectivity is written in VHDL and becomes the netlist.
-2. Pins are placed at die boundary strategically.
-3. Clock pins are made larger to reduce resistance.
-4. Placement blockage prevents tools from placing cells in restricted zones.
-5. Proper pin placement improves timing and routing efficiency.
-# Final Summary of Phase-2 Concepts
-
-This phase covers:
-
-1. Core and Die sizing  
-2. Utilization Factor  
-3. Aspect Ratio  
-4. Pre-placed Cells  
-5. Black Boxing  
-6. Floor Planning  
-7. Noise Margin  
-8. IR Drop  
-9. Ground Bounce  
-10. Decoupling Capacitors  
-11. Power Distribution Planning  
 
 ---
 </details>
