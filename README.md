@@ -4,16 +4,139 @@
 ---
 
 <details>
-<summary><strong>Phase 1 — OpenLANE Flow Familiarity (RTL → Synthesis literacy)</strong></summary>
+<summary><strong>Phase 1 — OpenLANE Flow Familiarity </strong></summary>
 
 --- 
 
 <details>
   <summary>Theory</summary>
 
-## 📌 Project Overview
+# SoC Design Using OpenLane
 
 This repository documents my hands-on implementation of the complete **RTL to GDSII ASIC design flow** using OpenLANE.
+
+---
+
+# 1. Digital ASIC Design
+
+Digital ASIC design is the process of converting a hardware description (RTL) into a fabricated silicon chip (ASIC).
+
+Traditionally, ASIC design flow required:
+
+- EDA Tools
+- PDK Data
+- Standard Cell Libraries
+
+These together enable the transformation of RTL → ASIC.
+
+---
+
+# 2. Open-Source Digital ASIC Design
+
+In open-source ASIC design:
+
+- EDA tools are open-source
+- RTL design is written in HDL (Verilog/VHDL)
+- Standard cell libraries are publicly available
+- Open PDKs are used
+
+OpenLane integrates:
+
+- Open-source EDA tools
+- Open PDK
+- Automated flow
+
+And produces:
+
+RTL → GDSII (layout ready for fabrication)
+
+---
+
+# 3. What is a PDK?
+
+PDK = Process Design Kit
+
+A PDK is a collection of files used to model the fabrication process for EDA tools while designing an IC.
+
+It allows designers to create layouts that match actual manufacturing rules.
+
+---
+
+## Contents of a PDK
+
+A PDK typically contains:
+
+- Process Design Rules (DRC rules)
+- LVS rules
+- PEX rules
+- Device Models
+- Digital Standard Cell Libraries
+- I/O Libraries
+
+These ensure that the design matches the real manufacturing process.
+
+---
+
+# 4. Evolution of IC Design and PDK Usage
+
+In earlier days:
+
+- Chip design was tightly integrated with fabrication.
+- Each company (e.g., Intel) controlled manufacturing.
+- Designers and fabrication teams worked under the same organization.
+
+These companies controlled:
+
+- Process technology
+- Design methodology
+- Manufacturing flow
+
+Later:
+
+- Fabless design companies emerged.
+- Foundries handled fabrication.
+- Designers needed a standardized interface to fabrication.
+
+To separate design from fabrication:
+
+Process Design Kits (PDKs) were introduced.
+
+PDKs standardized the interaction between:
+
+Design team ↔ Manufacturing process
+
+---
+
+# 5. Open PDK
+
+Open PDK used:
+
+- License: Apache 2.0
+- Collaboration between Google and SkyWater Technology
+
+FOSS 130nm Production PDK:
+
+Available at:
+github.com/google/skywater-pdk
+
+---
+
+## Is 130nm Fast?
+
+Yes.
+
+Example reference:
+
+Intel Pentium 4 Extreme Edition
+3.46 GHz (Quad-core era reference)
+
+Even 130nm technology was capable of high-performance designs.
+
+
+---
+
+## Openlane ASIC Flow
+
 
 Goal:
 - ✅ Clean GDSII
@@ -21,16 +144,11 @@ Goal:
 - ✅ Zero LVS mismatch
 - ✅ Timing Clean Design
 
----
-
-## 🏗️ Complete RTL to GDSII Flow
-
-
 ![flow](phase1/flow.jpeg)
 
 ---
 
-## 1) RTL Synthesis
+# 1. RTL Synthesis
 
 ### Description
 - Converts RTL (Verilog) into a gate-level netlist  
@@ -64,7 +182,7 @@ Goal:
 
 ---
 
-## 3) Placement
+# 3. Placement
 
 ### Steps
 - Global Placement  
@@ -78,7 +196,7 @@ Goal:
 
 ---
 
-## 4) Clock Tree Synthesis (CTS)
+# 4. Clock Tree Synthesis (CTS)
 
 ### Description
 - Builds clock distribution network  
@@ -91,7 +209,7 @@ Stable clock delivery to all sequential elements.
 
 ---
 
-## 5) Routing
+# 5. Routing
 
 ### Steps
 - Global Routing  
@@ -105,7 +223,7 @@ Stable clock delivery to all sequential elements.
 ---
 
 
-## 6) Signoff Verification
+# 6. Signoff Verification
 
 ### Physical Verification
 - DRC – Magic  
@@ -120,34 +238,146 @@ Stable clock delivery to all sequential elements.
 
 
 ---
-##  Antenna Rule Handling
+#  OpenLane Regression Testing
 
-### Problem
-Metal wires may accumulate charge and damage transistor gates.
+The design exploration utility is used for regression testing.
 
-### Solutions
-- Antenna diode insertion  
-- Layer hopping (bridging)  
-- Magic antenna checks  
+Regression testing means:
 
+- Running automation on multiple designs
+- Comparing results with previously known correct results
+- Ensuring no functionality breaks
+
+This ensures flow stability.
 
 ---
 
+#  Design For Test (DFT)
 
-##  Logic Equivalence Check (LEC)
+DFT techniques improve testability of a chip.
 
-Ensures functionality remains same after:
+Includes:
 
-- CTS  
-- Optimization  
-- Routing modifications  
+- Scan Insertion
+- Automatic Test Pattern Generation (ATPG)
+- Test Pattern Compression
+- Fault Coverage
+- Fault Simulation
 
+These techniques ensure high manufacturing test quality.
+
+---
+
+#  Physical Implementation (Automated Place & Route)
+
+Also called:
+
+Automated PnR (Place and Route)
+
+Steps include:
+
+1. Floorplanning (includes power planning)
+2. End Decoupling Capacitors & Tap Cell Insertion
+3. Placement (Global & Detailed)
+4. Post-Placement Optimization
+5. Clock Tree Synthesis (CTS)
+6. Routing (Global & Detailed)
+
+This converts logical netlist into physical layout.
+
+---
+
+#  Logic Equivalence Check (LEC)
+
+Every time the netlist is modified, verification must be performed.
+
+Why?
+
+Because:
+
+- CTS modifies the netlist.
+- Post-placement optimizations modify the netlist.
+- Routing optimizations may affect structure.
+
+LEC is used to formally confirm that:
+
+The functionality has NOT changed after netlist modifications.
+
+It ensures:
+
+Original RTL ≡ Final netlist
+
+---
+
+#  Dealing with Antenna Rule Violations
+
+When a metal wire segment is fabricated, it can act as an antenna.
+
+During fabrication:
+
+- Reactive ion etching causes charge accumulation on the wire.
+- Accumulated charge can damage transistor gates.
+- Gate oxide may break.
+
+This is called an **Antenna Effect**.
+
+---
+
+## Two Solutions for Antenna Violations
+
+1) Bridge the wire to a higher metal layer (by adding jump/bridge)
+
+- Requires router awareness.
+
+2) Add Antenna Diodes
+
+- These leak away accumulated charge.
+- Antenna diodes are provided by the Standard Cell Library (SCL).
+
+---
+
+#  Preventive Antenna Approach
+
+Preventive method:
+
+- Add a fake antenna diode near cell input after placement.
+- Run antenna checks (Magic tool) on routed layout.
+- If violation is detected on a cell input pin:
+    Replace fake diode with real antenna diode.
+
+This ensures safe fabrication.
+
+---
+
+#  Static Timing Analysis (STA)
+
+After routing:
+
+RC extraction is performed using:
+
+- Def2Spef
+
+Timing analysis is performed using:
+
+- OpenSTA (via OpenROAD)
+
+This ensures setup and hold timing constraints are satisfied.
+
+---
+
+# 13. Physical Verification (DRC & LVS)
+
+Physical verification ensures manufacturability.
+
+Includes:
+
+1) DRC – Design Rule Check
+2) LVS – Layout Versus Schematic
 
 
 ---
 </details>
 
---- 
 <details> 
 <summary>LAB</summary>
   
@@ -217,6 +447,510 @@ The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/1
 
 ---
 
+<details>
+<summary><strong>Phase 1 — Floorplan Fundamentals</strong></summary>
+
+
+<details>
+  <summary>Theory</summary>
+  
+## Floor Planning, Pre-Placed Cells & Power Planning
+
+---
+
+#  Chip Floor Planning Considerations
+
+# 1. Define Width and Height of Core & Die
+
+In Physical Design (PD) flow, the first step is to determine:
+
+- Core dimensions  
+- Die dimensions  
+
+The chip dimensions depend on the total area of logic gates inside the netlist.
+
+---
+
+## Example Netlist
+
+Consider a simple netlist containing:
+
+- Flip-flops (FF)
+- AND gates (A1Y)
+- OR gates (O1Y)
+
+These are standard cells.
+
+The chip area depends on the number and dimensions of these logic gates.
+
+---
+
+## Assume Standard Cell Dimensions
+
+Let:
+
+- Each standard cell = 1 unit width × 1 unit height  
+- Area of each cell = 1 square unit  
+
+If we place 4 cells together:
+
+Total Area = 4 units  
+Possible layout → 2 units × 2 units core  
+
+---
+
+## What is Core & Die?
+
+- Core: Area where logic blocks are placed  
+- Die: Entire silicon area including core and IO region  
+
+A chip contains multiple dies on a silicon wafer.
+
+---
+
+## 1.1 Utilization Factor
+
+Even if core area is 2 × 2 = 4 units,
+
+Not all area is usable for cell placement due to:
+
+- Routing space
+- Buffers
+- Spare cells
+- Congestion
+- Power planning
+
+### Formula:
+
+Utilization Factor = Area occupied by Netlist / Total Core Area
+
+Example:
+
+UF = 4 / (2 × 2) = 1
+
+But 100% utilization is not practical.
+
+### Practical Utilization:
+- Typically 50% – 60%
+- Rarely exceeds 70%
+
+Because routing and power network also require space.
+
+---
+
+# 1.2 Aspect Ratio
+
+### Definition:
+
+Aspect Ratio = Height / Width
+
+### Example 1:
+Core = 2 units × 2 units
+
+Aspect Ratio = 2 / 2 = 1
+
+### Example 2:
+Core Area = 8 units  
+Width = 4 units  
+Height = 2 units  
+
+Aspect Ratio = 2 / 4 = 0.5
+
+### Notes:
+- Ideal aspect ratio is usually close to 1
+- Most chips are rectangular
+- Practical aspect ratio range: 0.5 to 2
+
+---
+
+# 2. Define Locations of Pre-Placed Cells
+
+---
+
+## 2.1 What Are Pre-Placed Cells?
+
+Pre-placed cells are:
+
+- Large IP blocks
+- Fixed-location modules
+- Placed before standard cell placement
+- Cannot be moved during placement & routing
+
+---
+
+## Examples of Pre-Placed Cells (IPs)
+
+- Memory
+- Clock Gating Cells
+- Comparator
+- Multiplexer (MUX)
+
+These IPs:
+
+- Are designed separately
+- May appear multiple times
+- Have fixed locations in the chip
+- Are treated as black boxes
+
+---
+
+## 2.2 Black Boxing
+
+When logic blocks are not expanded internally:
+
+- Internal logic is hidden
+- Treated as a single module
+- Called black boxing
+
+Purpose:
+
+If a block repeats multiple times:
+- Instead of showing all internal logic
+- Represent as a single block
+
+This simplifies:
+
+- Timing analysis
+- Placement
+- Floorplanning
+
+---
+
+## 2.3 Floor Planning
+
+Floorplanning involves:
+
+- Arranging IP blocks
+- Fixing pre-placed cells
+- Assigning physical regions
+- Leaving routing channels
+- Defining core boundary
+
+Automated placement & routing tools:
+- Place standard cells around pre-placed macros
+
+---
+
+# 3. Surrounding Pre-Placed Cells with Decoupling Capacitors
+
+## Pre-Placed Cells
+
+Pre-placed cells (IP blocks/macros) are:
+
+- Large blocks like Memory, Comparator, Clock gating cells, MUX etc.
+- Placed before standard cell placement.
+- Fixed in location.
+- Not moved during placement and routing.
+- Treated as black boxes.
+
+These blocks:
+
+- May consume large switching current.
+- May switch simultaneously.
+- Can cause supply instability.
+
+---
+
+
+## IR Drop and Noise Margin Impact
+
+Example:
+
+If VDD = 1V  
+Due to IR drop, internal node may receive only 0.7V.
+
+This may:
+
+- Reduce noise margin.
+- Push logic level toward undefined region.
+- Cause functional failure.
+
+---
+
+## Noise Margin and Undefined Region (Unsafe Zone)
+
+For digital circuits, valid voltage levels are defined as:
+
+- VOL  → Maximum voltage recognized as Logic 0
+- VOH  → Minimum voltage recognized as Logic 1
+- VIL  → Input voltage threshold for Logic 0
+- VIH  → Input voltage threshold for Logic 1
+
+Noise margins are defined as:
+
+NMH = VOH − VIH  
+NML = VIL − VOL  
+
+For proper logic operation, both NMH and NML must be positive and sufficiently large.
+
+### Undefined Region
+
+The voltage region between VIL and VIH is called the **Undefined Region**.
+
+This region is an **unsafe zone** because:
+
+- The logic level is not guaranteed to be 0 or 1.
+- Circuit behavior becomes unpredictable.
+- Output may oscillate or produce incorrect logic.
+- Functional failures may occur.
+
+If due to IR drop or ground bounce:
+
+- Logic High drops below VIH
+- Logic Low rises above VIL
+
+The signal may enter the undefined region.
+
+This unsafe voltage zone must always be avoided in reliable chip design.
+
+---
+
+## Solution: Decoupling Capacitors (DECAP)
+
+To solve supply instability:
+
+We place decoupling capacitors near macros.
+
+### What is a Decoupling Capacitor?
+
+- A local capacitor placed between VDD and VSS.
+- Stores charge.
+- Supplies current locally during switching.
+- Reduces sudden current demand from global supply.
+
+---
+
+## Surrounding the Pre-Placed Cells
+
+Decoupling capacitors are placed around large IP blocks:
+
+Conceptual structure:
+
+DECAP  
+Block A  
+DECAP  
+Block B  
+DECAP  
+Block C  
+DECAP  
+
+These DECAP cells are inserted:
+
+- Around the boundary of the macro.
+- Between large IP blocks.
+- Near power sensitive regions.
+
+---
+
+## Why Surround the Pre-Placed Cells?
+
+Because:
+
+- Macros draw high instantaneous current.
+- Long power routing introduces resistance.
+- Large switching activity causes voltage fluctuations.
+
+Decoupling capacitors:
+
+- Provide a local charge reservoir.
+- Reduce IR drop.
+- Reduce ground bounce.
+- Improve power integrity.
+- Maintain stable VDD and VSS.
+- Keep signals away from the undefined (unsafe) region.
+
+---
+# 4. Power Planning (Advanced Concept)
+
+## Scenario:
+
+If a macro is repeated many times:
+
+- All blocks may switch simultaneously
+- Large current drawn at same time
+- Causes IR drop
+- Causes Ground bounce
+
+---
+
+## Two Major Issues:
+
+### 1) When Logic switches 1 → 0
+
+- All capacitors discharge
+- Sudden current to ground
+- Causes ground bounce
+
+### 2) When Logic switches 0 → 1
+
+- All capacitors charge
+- Heavy current from VDD
+- Causes voltage drop at VDD
+
+---
+
+# Solution: Multiple Power Tap Points
+
+Instead of:
+
+Single VDD/VSS source
+
+We provide:
+
+- Multiple VDD rails
+- Multiple VSS rails
+- Power grid network
+
+This ensures:
+
+- Current distributed evenly
+- Reduced IR drop
+- Reduced ground bounce
+- Stable supply
+
+
+---
+
+# Pin Placement
+
+Let us take the below design for example that needs to be implemented.
+
+The design consists of:
+
+- FF1 and FF2
+- Block A
+- Block B
+- Block C
+- Inputs: DIN1, DIN2, DIN3, DIN4
+- Outputs: DOUT1, DOUT2, DOUT3, DOUT4
+- Clocks: CLK1, CLK2
+
+Each flip-flop receives input data, passes through logic blocks, and produces outputs.
+
+---
+
+# Complete Design
+
+The complete design connects:
+
+- DIN1 → FF1 → Logic → FF2 → DOUT1
+- DIN2 → FF1 → Logic (via Block A & Block B) → FF2 → DOUT2
+- DIN3 → FF1 → Logic (via Block C) → FF2 → DOUT3
+- DIN4 → FF1 → Logic → FF2 → DOUT4
+
+The connectivity information (how gates are connected) is coded using a hardware description language.
+
+This connectivity description is written using **VHDL language**  
+and is called the **Netlist**.
+
+---
+
+# 5) Pin Placement
+
+After floorplanning, pins are placed on the boundary of the die.
+
+Inputs (DIN1–DIN4) and clocks (CLK1, CLK2) are placed on one side.
+
+Outputs (DOUT1–DOUT4, CLKOUT) are placed on another side.
+
+Pin placement is done carefully to:
+
+- Reduce routing congestion
+- Reduce wirelength
+- Improve timing
+
+---
+
+# Important Note on Clock Pins
+
+As observed in the pin placement:
+
+- Clock pins (CLK1, CLK2) are bigger in size.
+
+Reason:
+
+Clock signals drive multiple flip-flops continuously.
+
+They require:
+
+- Lower resistance path
+- Better current handling
+- Stronger metal routing
+
+Similarly:
+
+- CLKOUT should also have lower resistance.
+
+Conclusion:
+
+Bigger the pin size → Lower the resistance.
+
+This improves clock distribution and reduces delay/skew.
+
+---
+
+# Placement Tool Behavior
+
+Now once size and pin placement are defined,
+
+Automatic routing and placement tools try to place standard cells in the available core area.
+
+However,
+
+Certain regions must not have standard cells placed.
+
+---
+
+# Logical Cell Placement Blockage
+
+To prevent tools from placing cells in restricted areas,
+
+We create a **Logical Cell Placement Blockage**.
+
+Blockage means:
+
+- A defined region in the core
+- Where placement tool is restricted
+- No cell can be placed in that area
+
+This blockage ensures:
+
+- Space is reserved for routing
+- Space is reserved for future modifications
+- Macros and critical routing areas are protected
+- Congestion is reduced
+
+The placement and routing tool will not place any cell inside the blockage area.
+
+---
+
+# Summary
+
+1. Design connectivity is written in VHDL and becomes the netlist.
+2. Pins are placed at die boundary strategically.
+3. Clock pins are made larger to reduce resistance.
+4. Placement blockage prevents tools from placing cells in restricted zones.
+5. Proper pin placement improves timing and routing efficiency.
+# Final Summary of Phase-2 Concepts
+
+This phase covers:
+
+1. Core and Die sizing  
+2. Utilization Factor  
+3. Aspect Ratio  
+4. Pre-placed Cells  
+5. Black Boxing  
+6. Floor Planning  
+7. Noise Margin  
+8. IR Drop  
+9. Ground Bounce  
+10. Decoupling Capacitors  
+11. Power Distribution Planning  
+
+---
+</details>
+  
+</details>
 ## 🛠 Tools Used
 
 | Stage | Tool |
