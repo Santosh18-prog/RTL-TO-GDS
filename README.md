@@ -21,6 +21,8 @@ This repository documents my hands-on implementation of the complete **RTL to GD
 
 Digital ASIC design is the process of converting a hardware description (RTL) into a fabricated silicon chip (ASIC).
 
+![ASIC](phase1/aisc.jpeg)
+
 Traditionally, ASIC design flow required:
 
 - EDA Tools
@@ -52,7 +54,7 @@ RTL → GDSII (layout ready for fabrication)
 
 ---
 
-## 3. What is a PDK?
+### What is a PDK?
 
 PDK = Process Design Kit
 
@@ -77,7 +79,7 @@ These ensure that the design matches the real manufacturing process.
 
 ---
 
-## 4. Evolution of IC Design and PDK Usage
+### Evolution of IC Design and PDK Usage
 
 In earlier days:
 
@@ -379,6 +381,7 @@ Includes:
 </details>
 
 <details> 
+  ---
 <summary>LAB</summary>
   
 ### Determine Flip-flop Ratio
