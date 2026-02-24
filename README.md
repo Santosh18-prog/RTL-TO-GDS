@@ -446,6 +446,26 @@ In simple words, run_synthesis converts RTL code into real standard cell logic a
 ![run_synth](phase1/5-3_stat.png)
 
 The flipflop ratio is (number of flip flops)/(total number of cells) is  (1613/15762) = 0.102334 = 10.2334%
+
+![Worst_slack](phase1/worst_slack.png)
+
+### Timing Report Explanation
+
+The above timing report shows the synthesis stage timing analysis results.
+
+- TNS (Total Negative Slack) = 0.00  
+  This means there are no accumulated timing violations in the design.
+
+- WNS (Worst Negative Slack) = 0.00  
+  This indicates that the worst timing path does not violate the setup constraint.
+
+- Worst Setup Slack = 0.52 ns  
+  The data arrives 0.52 ns earlier than the required time.  
+  This means setup timing is satisfied and the design has a positive timing margin.
+
+- Worst Hold Slack = 0.16 ns  
+  The data is stable for 0.16 ns after the clock edge.  
+  This confirms that there are no hold violations.
   
 </details>
 </details>
@@ -926,7 +946,19 @@ The placement and routing tool will not place any cell inside the blockage area.
 
 ---
 </details>
+
+---
+
+<details>
+  <summary>LAB</summary>
   
+</details>
+  
+</details>
+
+---
+<details>
+  <sumarry>Phase 3 - Timing Literacy with Ideal Clocks</sumarry>
 </details>
 ## 🛠 Tools Used
 
