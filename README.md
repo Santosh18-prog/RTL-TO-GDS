@@ -1108,9 +1108,11 @@ magic -T ~/.ciel/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.nom.le
 
 <details>
 <summary><strong>Phase 3 - Timing Literacy with Ideal Clocks</strong></summary>
+  
+---
 
  <details><summary>3.1. Theory</summary>
- # Phase 3 – Timing Analysis with Ideal Clock (Using OpenSTA)
+
 
 ## 1. Introduction to Setup Timing
 
@@ -1307,12 +1309,12 @@ With setup time + uncertainty:
 This is the complete setup timing condition used in OpenSTA analysis.
    
  </details>
+ 
  ---
 
  <details><summary>3.2. LAB</summary>
-# Static Timing Analysis (STA) Lab – Phase 3
 
-## 1️. Objective
+##  Objective
 
 To perform Static Timing Analysis (STA) on the synthesized netlist of the `picorv32a` design using OpenSTA and to analyze setup and hold timing behavior under worst-case PVT corners.
 
