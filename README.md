@@ -1232,7 +1232,7 @@ New timing equation becomes:
 
 Θ < (T - S - δU)
 
-![delay](phase3/uc-delay.png)
+![delay](phase3/uc -delay.png)
 
 Where:
 
