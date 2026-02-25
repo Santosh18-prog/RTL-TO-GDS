@@ -384,8 +384,6 @@ Includes:
 
 <details> 
 
----
-
 <summary>1.2. LAB</summary>
   
 ### Determine Flip-flop Ratio
