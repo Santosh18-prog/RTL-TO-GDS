@@ -1,7 +1,6 @@
 # 🚀 VSD-Squadron RTL2GDSII SOC Implementation 
 
 ## WEEK-1
----
 
 <details>
 <summary><strong>Phase 1 — OpenLANE Flow Familiarity </strong></summary>
