@@ -1110,10 +1110,303 @@ magic -T ~/.ciel/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.nom.le
 <summary><strong>Phase 3 - Timing Literacy with Ideal Clocks</strong></summary>
 
  <details><summary>3.1. Theory</summary>
+ # Phase 3 – Timing Analysis with Ideal Clock (Using OpenSTA)
+
+## 1. Introduction to Setup Timing
+
+Timing analysis is performed using an **ideal clock** (before clock tree is built).
+
+We consider:
+
+- Launch Flip-Flop
+- Combinational Logic
+- Capture Flip-Flop
+
+Clock is assumed ideal (no clock tree delay).
+
+---
+
+![ideal](phase3/ideal.png)
+
+## 2. Basic Setup Timing Condition
+
+At time t = 0  
+Clock edge reaches the **launch flip-flop**.
+
+At time t = T  
+Next clock edge reaches the **capture flip-flop**.
+
+Let:
+
+Θ = Total combinational delay between launch and capture FF  
+T = Clock period  
+
+For correct operation:
+
+Θ < T
+
+If Θ exceeds T:
+
+- Clock period must be increased  
+- Frequency decreases  
+
+---
+
+## 3. Practical Scenario – Flip-Flop Structure
+
+A flip-flop is not a simple black box.  
+It contains:
+
+- MUX1
+- MUX2
+- Several internal logic gates
+
+![mux](phase3/mux.png)
+
+When:
+
+CLK = 0  
+- Data propagates inside first stage  
+- Output remains stable  
+
+CLK transitions 0 → 1  
+- Data is captured  
+- Output changes  
+
+Because flip-flop is built using logic gates and multiplexers:
+
+Internal delays exist.
+
+This creates a **setup time requirement**.
+
+---
+
+## 4. Setup Time Consideration
+
+The capture flip-flop needs finite time to settle.
+
+Let:
+
+S = Setup time  
+
+Effective timing condition becomes:
+
+Θ < (T - S)
+
+![setup](phase3/delay.png)
+
+So available time reduces.
+
+---
+
+## 5. Introduction to Clock Jitter
+
+Clock edges are ideally expected at:
+
+0, T, 2T, 3T, ...
+
+However, due to circuit variations:
+
+- Clock edge may arrive slightly earlier or later
+- This variation is called **Clock Jitter**
+
+![jitter](phase3/uncertinity.png)
+
+Clock jitter = temporary variation of clock period.
+
+Cause:
+- Clock source circuitry variation
+- Environmental and internal variations
+
+---
+
+## 6. Introducing Clock Uncertainty
+
+All clock variations are represented as a single parameter:
+
+Clock Uncertainty (δU)
+
+New timing equation becomes:
+
+Θ < (T - S - δU)
+
+![delay](phasse3/uc-delay.png)
+
+Where:
+
+- Θ = Combinational delay
+- S = Setup time
+- δU = Clock uncertainty
+
+---
+
+## 7. Example Calculation
+
+Assume:
+
+T = 1 ns  
+S = 0.01 ns  
+Uncertainty = 0.09 ns  
+
+Then:
+
+Θ < (1 - 0.01 - 0.09)
+
+Θ < 0.9 ns
+
+So maximum allowed combinational delay = 0.9 ns.
+
+---
+
+## 8. Complete Timing Path Expression
+
+Total delay (Θ) includes:
+
+- Clock to Q delay of launch flip-flop
+- Delay of combinational logic block 1
+- Delay of combinational logic block 2
+- Additional gate delays
+
+General form:
+
+![ff](phase3/ff.png)
+Θ = FF1 (Clock-to-Q delay)
+    + wire delay estimate 1
+    + Delay of gate 1
+    + wire delay estimate 2
+    + Delay of gate 2
+    + wire delay estimate 3
+
+![ff](phase3/ff_delay.png)
+
+Θ = FF1 (Clock-to-Q delay)
+    + Delay of gate 1
+    + Delay of gate 2
+
+Final condition:
+
+Θ < (T - S - δU)
+
+If this condition satisfies → setup timing is met.
+
+If not → timing violation occurs.
+
+---
+
+## 9. Summary
+
+Initial condition:
+Θ < T
+
+With setup time:
+Θ < (T - S)
+
+With setup time + uncertainty:
+Θ < (T - S - δU)
+
+This is the complete setup timing condition used in OpenSTA analysis.
    
  </details>
+ ---
 
- <details><summary>3.2. LAB</summary></details>
+ <details><summary>3.2. LAB</summary>
+# Static Timing Analysis (STA) Lab – Phase 3
+
+## 1️. Objective
+
+To perform Static Timing Analysis (STA) on the synthesized netlist of the `picorv32a` design using OpenSTA and to analyze setup and hold timing behavior under worst-case PVT corners.
+
+---
+
+
+The RTL (`picorv32a.v`) was synthesized using OpenLane.
+The synthesized gate-level netlist was generated inside:
+
+```
+results/synthesis/picorv32a.v
+```
+
+A custom `pre_sta.conf` file was created to perform static timing analysis.
+
+![pre_sta](phase3/pre_sta.png)
+
+The following PVT corners were selected:
+
+- Setup (MAX delay) → `ss_100C_1v60`
+- Hold (MIN delay) → `ff_n40C_1v95`
+
+This is the path to get the lib files
+
+![lib](phase3/libs.png)
+
+This corresponds to:
+
+- Slow process, high temperature, low voltage → worst-case setup
+- Fast process, low temperature, high voltage → worst-case hold
+
+---
+
+The STA was executed using:
+
+```bash
+sta pre_sta.conf
+```
+## RESULT
+
+![sta](phase3/sta-1.png)
+![sta2](phase3/sta-2.png)
+![sta3](phase3/sta-3.png)
+![sta4](phase3/sta-4.png)
+![sta5](phase3/sta-5.png)
+
+##  Results Observed
+
+###  Setup Timing (MAX Path)
+
+- Data Arrival Time = 22.45 ns
+- Data Required Time = 11.71 ns
+- Slack = -10.75 ns (VIOLATED)
+
+WNS = -10.75 ns  
+TNS = -553.07 ns  
+
+This indicates significant setup timing violation.
+
+---
+
+###  Hold Timing (MIN Path)
+
+- Slack = +0.25 ns (MET)
+
+Hold timing is satisfied.
+
+---
+
+
+## 7️ High Fanout Observation
+
+During analysis, several high fanout nets were observed (fanout 10, 6, 5).
+
+High fanout causes:
+
+- Increased capacitive loading
+- Higher RC delay
+- Slower signal transition
+- Increased data arrival time
+
+This contributes to the setup timing violation.
+
+---
+
+##  Conclusion
+
+- Setup timing is violated at synthesis level.
+- Hold timing is satisfied.
+- The violation is due to large combinational delay relative to the 12 ns clock period.
+- High fanout nets significantly impact delay.
+
+   
+ </details>
 </details>
 ## 🛠 Tools Used
 
