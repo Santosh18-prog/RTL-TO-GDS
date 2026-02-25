@@ -1,4 +1,4 @@
-# 🚀 VSD-Squadron RTL2GDSII Implementation 
+# 🚀 VSD-Squadron RTL2GDSII SOC Implementation 
 
 ## WEEK-1
 ---
