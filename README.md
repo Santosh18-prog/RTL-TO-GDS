@@ -1,6 +1,6 @@
 # 🚀 RTL to GDSII Implementation using OpenLANE  
 
-
+## WEEK-1
 ---
 
 <details>
@@ -9,7 +9,7 @@
 --- 
 
 <details>
-  <summary>Theory</summary>
+  <summary>1.1. Theory</summary>
 
 ## SoC Design Using OpenLane
 
@@ -384,7 +384,7 @@ Includes:
 
 <details> 
   ---
-<summary>LAB</summary>
+<summary>1.2. LAB</summary>
   
 ### Determine Flip-flop Ratio
 
@@ -470,7 +470,6 @@ The above timing report shows the synthesis stage timing analysis results.
 </details>
 </details>
 
----
 
 <details>
 <summary><strong>Phase 2 — Floorplan Fundamentals</strong></summary>
@@ -478,7 +477,7 @@ The above timing report shows the synthesis stage timing analysis results.
 ---
 
 <details>
-  <summary>Theory</summary>
+  <summary>2.1. Theory</summary>
   
 ## Floor Planning, Pre-Placed Cells & Power Planning
 
@@ -950,15 +949,171 @@ The placement and routing tool will not place any cell inside the blockage area.
 ---
 
 <details>
-  <summary>LAB</summary>
+  <summary>2.2. LAB</summary>
+
+  ## Floor Planning:
+
+   Command:
+
+    run_floorplan
+
+![floor_planning](phase2/floor_plan.png)
+
+During this step:
+
+- The chip area (die size) is calculated.
+
+- The width and height of the design are decided.
+
+- IO pins are placed on the boundary of the chip.
+
+- Tap cells are inserted to prevent latch-up issues.
+
+- Decoupling (decap) cells are inserted to reduce power noise and IR drop.
+
+- Power planning is performed for VPWR (power) and VGND (ground).
+
+- The Power Distribution Network (PDN) is generated.
+
+After this step, the chip has:
+
+- Fixed dimensions
+
+- IO pin locations
+
+- Power grid
+
+- Prepared rows for standard cell placement
+
+### Config.tcl
+
+`config.tcl` controls how the chip is built.
+
+It decides:
+- How big the chip will be
+- How much area is used by logic cells
+- The shape of the chip
+- The target operating frequency
+- How the floorplanning stage should behave
+
+![config.tcl](phase2/config_tcl_before.png)
+
+With this config.tcl we will get floorplanning output as:
+
+![output](phase2/util_before.png)
+
+- `FP_ASPECT_RATIO = 1`  
+  Sets the chip shape to square (width ≈ height).
+
+- `FP_CORE_UTIL = 10`  
+  Sets core utilization to 10%.  
+  Only 10% of the core area is used for logic cells, making the chip area larger.
+
+  This is the def file for this config.tcl
+
+  ![DEF](phase2/def_before.png)
+### Creating sky130A_sky130_fd_sc_hd_config.tcl file inside picorv32a directory:
+This file overrides the default core utilization value specifically for the sky130A PDK and sky130_fd_sc_hd standard cell library.
+
+![sky130A_sky130_fd_sc_hd_config.tcl](phase2/sky.tcl.png)
+
+### Modified config.tcl
+![Config.tcl](phase2/modified_tcl.png)
+
+
+After creating the new configuration file and updating config.tcl, the floorplanning stage is executed again.
+
+### Floorplan Output
+
+![OUTPUT](phase2/util_after.png)
+
+  picorv32a.def after adding the sky130A_sky130_fd_sc_hd_config.tcl file
+
+  The def file is in:
+
   
+   Command:
+
+    /home/vscode/Desktop/OpenLane/designs/picorv32a/runs/RUN_2026.02.25_01.46.35/results/floorplan/picorv32a.def
+
+
+  ![def](phase2/def_after.png)
+
+## Effect of the Modification
+
+### Previous Configuration
+
+- Core Utilization = 10%
+- Chip area was larger
+- More unused white space inside the core
+- Lower routing congestion
+
+### After Modification
+
+- Core Utilization = 30%
+- More standard cells are packed inside the core
+- Chip area becomes smaller compared to 10% utilization
+- Routing density increases moderately
+- Area utilization becomes more efficient
+
+## What Happens After Adding sky130A_sky130_fd_sc_hd_config.tcl
+
+After adding the file `sky130A_sky130_fd_sc_hd_config.tcl`, OpenLane reads this file automatically during the flow.
+
+This file overrides the default configuration for the sky130A PDK and sky130_fd_sc_hd standard cell library.
+
+As a result:
+
+- The new core utilization value (30%) is applied.
+- Floorplanning is recalculated using the updated value.
+- The chip area is reduced compared to 10% utilization.
+- Standard cells are placed more compactly.
+- Overall area usage becomes more efficient.
+
+## Viewing Floorplan Layout in Magic using this commands
+
+```bash
+cd /home/vscode/Desktop/OpenLane/designs/picorv32a/runs/RUN_2026.02.25_01.46.35
+
+magic -T ~/.ciel/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.nom.lef def read results/floorplan/picorv32a.def &
+
+
+  ```
+![layout](phase2/layout_new.png)
+![layout1](phase2/ln-2.png)
+![layout2](phase2/ln-3.png)
+
+## Basic Magic Layout Viewing Commands
+
+- Press `v` to fit the entire layout to the screen.
+
+- To zoom into a specific area:
+  - Left click 
+  - Right click to form a bounding box.
+  - Press `Ctrl + Z` to zoom into the selected area.
+
+- To select a specific object:
+  - Place the mouse pointer over the object.
+  - Press `s` to select it.
+  - In the `tkcon` window, type:
+    ```
+    what
+    ```
+    to view the details of the selected object.
+
+    ![label](phase2/label.png)
 </details>
   
 </details>
 
----
 <details>
-  <sumarry>Phase 3 - Timing Literacy with Ideal Clocks</sumarry>
+<summary><strong>Phase 3 - Timing Literacy with Ideal Clocks</strong></summary>
+
+ <details><summary>3.1. Theory</summary>
+   
+ </details>
+
+ <details><summary>3.2. LAB</summary></details>
 </details>
 ## 🛠 Tools Used
 
