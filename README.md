@@ -1,4 +1,4 @@
-# 🚀 RTL to GDSII Implementation using OpenLANE  
+# 🚀 VSD-Squadron RTL2GDSII Implementation 
 
 ## WEEK-1
 ---
@@ -21,7 +21,7 @@ This repository documents my hands-on implementation of the complete **RTL to GD
 
 Digital ASIC design is the process of converting a hardware description (RTL) into a fabricated silicon chip (ASIC).
 
-![ASIC](phase1/aisc.jpeg)
+![ASIC](phase1/asic.jpeg)
 
 Traditionally, ASIC design flow required:
 
