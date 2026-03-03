@@ -1415,7 +1415,7 @@ This contributes to the setup timing violation.
 
 ## WEEK-2
 
-![WEEK2](Week-2/Phase-1/README.md)
+- [Week 2 – Physical Design Optimization](WEEK-2/README.md)
 
 ## 🛠 Tools Used
 
