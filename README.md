@@ -1410,6 +1410,13 @@ This contributes to the setup timing violation.
    
  </details>
 </details>
+
+---
+
+## WEEK-2
+
+![WEEK2](WEEK-2/README.md)
+
 ## 🛠 Tools Used
 
 | Stage | Tool |
